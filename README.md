@@ -3,3 +3,4 @@ A XinCraft Stats bot written in Python using Pycord (a branch of discord.py) and
 
 ## Status
 This bot is currently in development.
+Edit: The /api command is currently broken so development will temporarily be stopped.
