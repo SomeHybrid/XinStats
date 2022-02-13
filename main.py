@@ -12,7 +12,7 @@ class Main(discord.Cog):
         self.client = xincraft.AsyncClient(key)
         self.bot = bot
 
-    @commands.slash_command(guild_ids=[924110379355897876])
+    @commands.slash_command()
     async def stats(self, ctx, user: str):
         data = await self.client.get_user(user)
         embed = discord.Embed(title=f"{user}'s stats", color=0xFFD700)
@@ -21,7 +21,10 @@ class Main(discord.Cog):
         duos = data.stats.doubles
         trios = data.stats.trios
         fours = data.stats.fours
-        cosmetics = data.cosmetics
+        try:
+            kdr = round(overall.kills / overall.deaths, 2)
+        except ZeroDivisionError:
+            kdr = 0
         embed.add_field(
             name="Overall",
             value=f"""
@@ -37,6 +40,10 @@ class Main(discord.Cog):
             • ELO: `{data.elo}`
             """
         )
+        try:
+            kdr = round(solos.kills / solos.deaths, 2)
+        except ZeroDivisionError:
+            kdr = 0
         embed.add_field(
             name="Solos",
             value=f"""
@@ -47,9 +54,13 @@ class Main(discord.Cog):
             • Draws: `{solos.draws}`
             • Winstreak: `{solos.ws}`
             • Best winstreak: `{solos.bestws}`
-            • KDR: `{round(solos.kills / solos.deaths, 2)}`
+            • KDR: `{kdr}`
             """
         )
+        try:
+            kdr = round(duos.kills / duos.deaths, 2)
+        except ZeroDivisionError:
+            kdr = 0
         embed.add_field(
             name="Duos",
             value=f"""
@@ -60,9 +71,13 @@ class Main(discord.Cog):
             • Draws: `{duos.draws}`
             • Winstreak: `{duos.ws}`
             • Best winstreak: `{duos.bestws}`
-            • KDR: `{round(duos.kills / duos.deaths, 2)}`
+            • KDR: `{kdr}`
             """
         )
+        try:
+            kdr = round(trios.kills / trios.deaths, 2)
+        except ZeroDivisionError:
+            kdr = 0
         embed.add_field(
             name="Trios",
             value=f"""
@@ -73,9 +88,13 @@ class Main(discord.Cog):
             • Draws: `{trios.draws}`
             • Winstreak: `{trios.ws}`
             • Best winstreak: `{trios.bestws}`
-            • KDR: `{round(trios.kills / trios.deaths, 2)}`
+            • KDR: `{kdr}`
             """
         )
+        try:
+            kdr = round(fours.kills / fours.deaths, 2)
+        except ZeroDivisionError:
+            kdr = 0
         embed.add_field(
             name="Fours",
             value=f"""
@@ -86,7 +105,7 @@ class Main(discord.Cog):
             • Draws: `{fours.draws}`
             • Winstreak: `{fours.ws}`
             • Best winstreak: `{fours.bestws}`
-            • KDR: `{round(fours.kills / fours.deaths, 2)}`
+            • KDR: `{kdr}`
             """
         )
         embed.add_field(
